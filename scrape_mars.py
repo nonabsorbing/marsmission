@@ -33,18 +33,8 @@ for x in range(1):
     html = browser.html
     findpic = bs(html, 'html.parser')
 
-# pics = findpic.find_all('article', class_='carousel_item')
-#this got me a bunch of article stuff
-# pics = findpic.find_all('a', class_="data-fancybox-href")
-#this returned empty 
-
-# pics = findpic.find_all('a', class_="button fancybox")
-#thie returned the A - url is in there. 
-
-# article= findpic.find_all('article')
 a_find= findpic.find_all('a', class_ = "button fancybox")
-# pic_url = a_find("data-fancybox-href")
-# pic_url = findpic.find_all("data-fancybox-href")
+
 
 
 imgurl = "https://twitter.com/marswxreport?lang=en"
