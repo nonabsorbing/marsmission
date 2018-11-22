@@ -3,15 +3,19 @@ from bs4 import BeautifulSoup as bs
 import requests
 from splinter import Browser
 import pandas as pd
-from flask import Flask, render_template
 
-import pymongo
+def init_browser():
+    # @NOTE: Replace the path with your actual path to the chromedriver
+    executable_path = {"executable_path": "chromedriver"}
+    return Browser("chrome", **executable_path, headless=False)
 
 
 def scrape():
+    browser = init_browser()
+    listings = {}
 
-    # URL of page to be scraped
-    url = "https://mars.nasa.gov/news/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&category=19%2C165%2C184%2C204&blank_scope=Latest"
+    url =  "https://mars.nasa.gov/news/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&category=19%2C165%2C184%2C204&blank_scope=Latest"
+    browser.visit(url)
 
     # Retrieve page with the requests module
     response = requests.get(url)
@@ -20,29 +24,57 @@ def scrape():
     soup = bs(response.text, 'html.parser')
     #get title
     # title = soup.find_all('div', class_ = "content_title")
-    news_title = soup.find_all("div", class_ = "content_title")[0].text
-    #why's it giving me all this stuff - but not the most recent text ?
+    title_elem = soup.find_all("div", class_ = "grid_layout")
+
+    for div in title_elem:
+        if div.find(class_ ="content_title"): 
+            actual_title = div
+            break
+        # else: print("Sorry")
+
+    news_title= actual_title.find_all("a")[1].text
 
     #get para text
-    # results = soup.find_all('li', class_="result-row")
-    news_para = soup.find_all("div", class_ = "image_and_description_container")[0].text
+
+    news_para = soup.find_all("div", class_ = "rollover_description_inner")[0].text
+
+    #get wallpaper url
 
     executable_path = {'executable_path': 'chromedriver.exe'}
     browser = Browser('chrome', **executable_path, headless=False)
 
-    for x in range(1):
 
-        html = browser.html
-        findpic = bs(html, 'html.parser')
-
-    a_find= findpic.find_all('a', class_ = "button fancybox")
-
-    imgurl = "https://twitter.com/marswxreport?lang=en"
+    imgurl = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
     browser.visit(imgurl)
+
+    html = browser.html
+    findpic = bs(html, 'html.parser')
+
+    pic_filter1 = findpic.find_all('article', class_="carousel_item")[0]
+
+    pic_filter2 = pic_filter1["style"]
+
+    pic_url = pic_filter2.split("(")[1].split(")")[0].split("'")[1]
+
+    base_url = "https://www.jpl.nasa.gov"
+
+    featured_image_url = base_url+pic_url
+
+
+    #get latest twitter weather report
+
+    executable_path = {'executable_path': 'chromedriver.exe'}
+    browser = Browser('chrome', **executable_path, headless=False)
+
+
+    weather_url = "https://twitter.com/marswxreport?lang=en"
+    browser.visit(weather_url)
 
     html = browser.html
     findweather = bs(html, 'html.parser')
     mars_weather= findweather.find_all("div", class_="js-tweet-text-container")[0].text
+
+    #get hemisphere urls
 
     facts_url = 'https://space-facts.com/mars/'
     tables = pd.read_html(facts_url)
@@ -63,10 +95,13 @@ def scrape():
     mars_dict = {
     "newsTitle" : news_title, 
     "newsPara": news_para, 
-    "articlePic" : a_find,
+    "articlePic" : featured_image_url,
     "marsWeather": mars_weather,
     "webTable" : html_table,
     "hemImages": hemisphere_image_urls
     }
+
+
+    browser.quit()
 
     return(mars_dict)

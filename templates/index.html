@@ -5,27 +5,53 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Scraping Mars</title>
+  <title>LATEST MARS NEWS</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="mars_style.css">
+
 </head>
 
 <body>
-  <div class="container">
 
+
+  <div class="container">
     <div class="jumbotron text-center">
-      <h1>Some Stuff About Mars</h1>
+      <h1>Mars Data</h1>
+     <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Get Mars Data</a></p>
     </div>
 
-    <!-- Craigslist Listings -->
-    <div class="row" id="news_headline">
-      <div class="col-md-12">
-        <h4 class="heading">{{marsdic.price}} {{listings.headline}}</h4>
-        <small>{{listings.hood}}</small>
+    <div class="row">
+        <div class="col-12">
+          <h2>{{ marsweb.newsTitle }}</h2>
+          <br>
+          <p>{{ marsweb.newsPara }}</p>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <h2>Featured Mars Image </h2>
+        <img src="{{ marsweb.articlePic }}" width="600" height="600" alt="Today's Picture">
+      </div>
+      <div class="col">
+         Here's some stuff<br>
+         <h3> will this table work? </h3>
+        <{{marsweb.webTable}}>
       </div>
     </div>
+      <div class = "row">
+          <p> Here's my list of hemispheres 
+              {{ marsweb.hemImages }} 
+            </p> 
+            
+                <div> </div>
 
-  </div>
+        </div>
+    </div>
+
+
 </body>
 
 </html>
+
 

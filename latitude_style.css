@@ -1,0 +1,60 @@
+
+/* Giving the body the specified background color, adding font sizes for the h1 and h3 elements we'll be using */
+body {
+    background: #ffffff;
+    padding: 10px;
+
+  }
+  
+  h1 {
+    font-size: 32px;
+  }
+  
+  h2 {
+    font-size: 50px;
+  }
+  
+  h3 {
+    font-size: 26px;
+  }
+  
+p {
+  width: 50%;
+
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+}
+
+  /* Getting rid of the default link styles here */
+  .navbar li a {
+    color: rgba(0, 0, 0, 0.822);
+    text-decoration: none;
+  }
+  
+  /* Styling the header, giving it a height, a background color, and some top padding */
+  .header {
+    /* height: 200px; */
+    padding-top: 20px;
+    background: #cdcdcd;
+  }
+  
+  /* Centering our h1 tag inside our header, giving it a little padding, removing its margin */
+  .header h1 {
+    padding: 10px;
+    margin: 0;
+    color: #000;
+    text-align: center;
+  }
+  
+  /* Giving the .post element margin on 3 sides */
+  .post {
+    margin-top: 50px;
+    margin-right: 100px;
+    margin-left: 100px;
+  }
+  
+}
